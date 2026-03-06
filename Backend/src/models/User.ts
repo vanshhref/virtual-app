@@ -18,6 +18,11 @@ export class UserModel {
     return await db.get('SELECT * FROM users WHERE username = ?', [username]);
   }
 
+  static async findByEmail(email: string): Promise<User | undefined> {
+    const db = dbService.getDb();
+    return await db.get('SELECT * FROM users WHERE email = ?', [email]);
+  }
+
   static async findById(id: string): Promise<User | undefined> {
     const db = dbService.getDb();
     return await db.get('SELECT * FROM users WHERE id = ?', [id]);

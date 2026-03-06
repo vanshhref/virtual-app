@@ -11,8 +11,11 @@ router.post('/signup', async (req, res) => {
   try {
     const { username, email, password } = req.body;
     
-    const existing = await UserModel.findByUsername(username);
-    if (existing) return res.status(400).json({ error: 'Username taken' });
+    const existingUser = await UserModel.findByUsername(username);
+    if (existingUser) return res.status(400).json({ error: 'Username taken' });
+
+    const existingEmail = await UserModel.findByEmail(email);
+    if (existingEmail) return res.status(400).json({ error: 'Email already registered' });
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await UserModel.create({
